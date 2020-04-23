@@ -1,4 +1,7 @@
-exports.Observer = class Observer {
+// let Dep = require('./dep');
+import {Dep} from "./dep.js";
+
+export class Observer {
   constructor(value) {
     this.value = value
     def(value, '_ob_', true)
@@ -32,11 +35,18 @@ function defineReactive(obj, key, val) {
     val = obj[key]
   }
 
+  if (typeof val === 'object') {
+    new Observer(val)
+  }
+
+  const dep = new Dep()
+
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get() {
       console.log(`获取了${key}：${val}`)
+      dep.depend()
       return val
     },
     set(newVal) {
@@ -45,6 +55,7 @@ function defineReactive(obj, key, val) {
       } else {
         console.log(`修改属性：${val}->${newVal}`)
         val = newVal
+        dep.notify()
       }
     }
   })
