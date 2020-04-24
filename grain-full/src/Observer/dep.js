@@ -1,5 +1,7 @@
+// 依赖管理器
 export class Dep {
   constructor() {
+    // 收集的依赖数组，范型应该为watcher
     this.subs = []
   }
 
@@ -14,9 +16,7 @@ export class Dep {
 
   // 添加依赖
   depend() {
-    // 这段不是很懂
     if (window.target) {
-      console.log(window.target)
       this.addSub(window.target)
     }
   }

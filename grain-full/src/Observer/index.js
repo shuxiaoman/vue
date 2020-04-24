@@ -1,4 +1,4 @@
-// let Dep = require('./dep');
+// 观察者
 import {Dep} from "./dep.js";
 
 export class Observer {
@@ -46,6 +46,7 @@ function defineReactive(obj, key, val) {
     configurable: true,
     get() {
       console.log(`获取了${key}：${val}`)
+      // 收集依赖
       dep.depend()
       return val
     },
